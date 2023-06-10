@@ -12,8 +12,7 @@ def toPng():
         image.save("output.png", "PNG")
         return "success"
     except Exception as e:
-        return f"This is the error {e.args}"
-
+        return f"This is the Error: {e.args}"
 
 
 
