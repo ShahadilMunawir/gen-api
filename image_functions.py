@@ -1,14 +1,11 @@
 from PIL import Image
-from flask import Request, Response
 
 
-def toPng():
-    if Request.method == "POST":
-        try:
-            image = Image.open("./input.jpg")
-            image.save("output.png", "PNG")
-            return "success"
-        except Exception as e:
-            return f"This is the Error: {e.args}"
-    else:
-        return "GET method not allowed"
+def toPng(files, extension, quality):
+    try:
+        for i, file in enumerate(files):
+            image = Image.open(file)
+            image.save(f"./outputImages/output{i}.{extension}", f"{extension}", quality=quality)
+        return "success"
+    except Exception as e:
+        return f"This is the Error: {e.args}"
