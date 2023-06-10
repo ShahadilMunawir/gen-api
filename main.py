@@ -4,10 +4,14 @@ from image_functions import toPng
 
 app = Flask(__name__)
 
-@app.route("/topng")
+@app.route("/topng", methods=["POST"])
 def to_png():
     if request.method == "POST":
-        return toPng()
+        if "images" in request.files :
+            image = request.files.getlist("images")
+            return toPng(image)
+        else:
+            return "No image provided"
     else:
         return "GET method is not allowed"
 
