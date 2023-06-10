@@ -1,20 +1,13 @@
-from flask import Flask
 from PIL import Image
+from flask import Flask, request
+from image_functions import toPng
 
 app = Flask(__name__)
 
-
-
 @app.route("/topng")
-def toPng():
-    try:
-        image = Image.open("./input.jpg")
-        image.save("output.png", "PNG")
-        return "success"
-    except Exception as e:
-        return f"This is the Error: {e.args}"
-
-
+def to_png():
+    if request.method == "GET":
+        return toPng()
 
 if __name__ == "__main__":
     app.run(debug=True, port=3000)
