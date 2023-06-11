@@ -1,6 +1,6 @@
 from PIL import Image
-from flask import Flask, request
-from image_functions import toPng
+from flask import Flask, request, send_file
+from image_functions import toPng, downloadFunction
 
 app = Flask(__name__)
 
@@ -23,7 +23,6 @@ def to_png():
 
         # getting the extension from the form data and trimming the unwanted space and making it capitalize to prevent errors
         extension = request.form.get("extension").strip()
-        print(extension)
         if extension == "jpg":  # converting jpg to jpeg because using jpg is not suppoted in pillow
             extension = "jpeg"
 
@@ -35,6 +34,12 @@ def to_png():
     else:
         return "GET method is not allowed"
 
+@app.route("/download/<path:filename>")
+def download_file(filename):
+    try:
+        return send_file(downloadFunction(filename), as_attachment=True)
+    except Exception:
+        return "File not found"
 
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
