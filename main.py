@@ -1,6 +1,6 @@
 from PIL import Image
 from flask import Flask, request, send_file
-from image_functions import toPng, downloadFunction
+from image_functions import toPng, downloadFunction, backgroundImageRemove
 
 app = Flask(__name__)
 
@@ -41,5 +41,12 @@ def download_file(filename):
     except Exception:
         return "File not found"
 
+@app.route("/bgremove", methods=["POST"])
+def bg_remove():
+    if not request.files.getlist("images"):
+        return "image not provided"
+    
+    image = request.files.getlist("images")
+    return backgroundImageRemove(image)
 if __name__ == "__main__":
     app.run(debug=True, port=5000)
